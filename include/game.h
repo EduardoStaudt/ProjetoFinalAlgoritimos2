@@ -1,0 +1,1 @@
+// funcoes e structs do jogo
