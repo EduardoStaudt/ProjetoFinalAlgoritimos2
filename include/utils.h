@@ -5,4 +5,8 @@ int lerInteiroNoIntervalo(int min, int max);
 
 void limparBufferEntrada(void);
 
+void pausar(void);
+
 #endif
+
+
