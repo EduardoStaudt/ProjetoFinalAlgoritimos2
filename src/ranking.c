@@ -1,103 +1,121 @@
-// acoes relacionadas aos arquivo
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include "ranking.h"
 
 Jogador* carregarRanking(const char *arquivo, int *qtd) {
-    FILE *file;
-    char linhas[100];
-    int contador = 0, i = 0;
+    *qtd = 0;
 
-    file = fopen(arquivo, "r");
-    
-    if(file == NULL){
-        *qtd = 0;
+    FILE *f = fopen(arquivo, "r");
+    if (!f) {
+        // primeira vez rodando, sem arquivo ainda
         return NULL;
     }
 
-    while(fgets(linhas, sizeof(linhas), file) != NULL) { 
-        if (strlen(linhas) > 1){
-        contador++;    
+    char buffer[128];
+    int count = 0;
+
+    // conta quantas linhas "validas" tem
+    while (fgets(buffer, sizeof(buffer), f) != NULL) {
+        if (buffer[0] != '\n' && buffer[0] != '\0') {
+            count++;
         }
     }
 
-    rewind(file);
-
-    Jogador *ranking = malloc(contador *sizeof(Jogador));
-
-    if(ranking == NULL && contador > 0){
-        fclose(file);
-        *qtd = 0;
+    if (count == 0) {
+        fclose(f);
         return NULL;
     }
-    
-    while (i < contador && fscanf(file, " %49s %d", ranking[i].nome, &ranking[i].pontos) == 2) {
-        i++;
+
+    Jogador *ranking = (Jogador*) malloc(count * sizeof(Jogador));
+    if (!ranking) {
+        fclose(f);
+        return NULL;
     }
 
-    fclose(file);
+    rewind(f);
+    int i = 0;
+    while (i < count && fgets(buffer, sizeof(buffer), f) != NULL) {
+        char nome[50];
+        int pontos;
+
+        if (sscanf(buffer, "%49[^;];%d", nome, &pontos) == 2) {
+            strncpy(ranking[i].nome, nome, sizeof(ranking[i].nome));
+            ranking[i].nome[sizeof(ranking[i].nome) - 1] = '\0';
+            ranking[i].pontos = pontos;
+            i++;
+        }
+    }
+
+    fclose(f);
     *qtd = i;
+
+    if (*qtd == 0) {
+        free(ranking);
+        return NULL;
+    }
+
     return ranking;
 }
 
-int salvarRanking(const char *arquivo, const Jogador *ranking, int qtd){
-    FILE *file;
-    
-    file = fopen(arquivo, "w");
-    
-    if(file == NULL){
-        return 0;
-    }
+int salvarRanking(const char *arquivo, const Jogador *ranking, int qtd) {
+    FILE *f = fopen(arquivo, "w");
+    if (!f) return 0;
 
     for (int i = 0; i < qtd; i++) {
-        fprintf(file, "%s %d\n", ranking[i].nome, ranking[i].pontos);
+        fprintf(f, "%s;%d\n", ranking[i].nome, ranking[i].pontos);
     }
-    
-    fclose(file);
+
+    fclose(f);
     return 1;
+}
+
+void ordenarRanking(Jogador *ranking, int qtd) {
+    for (int i = 0; i < qtd - 1; i++) {
+        for (int j = 0; j < qtd - 1 - i; j++) {
+            if (ranking[j].pontos < ranking[j + 1].pontos) {
+                Jogador tmp = ranking[j];
+                ranking[j] = ranking[j + 1];
+                ranking[j + 1] = tmp;
+            }
+        }
+    }
 }
 
 int atualizarRanking(Jogador **ranking, int *qtd, Jogador novoJogador) {
-    Jogador *upd = realloc(*ranking, (*qtd+1) * sizeof(Jogador));
+    if (*ranking == NULL || *qtd == 0) {
+        Jogador *novo = (Jogador*) malloc(sizeof(Jogador));
+        if (!novo) return 0;
 
-        if(upd == NULL){
-        return 0;
-    }
+        novo[0] = novoJogador;
+        *ranking = novo;
+        *qtd = 1;
+        return 1;
+    } else {
+        int novaQtd = *qtd + 1;
+        Jogador *novo = (Jogador*) realloc(*ranking, novaQtd * sizeof(Jogador));
+        if (!novo) return 0;
 
-    *ranking = upd;
-    *(*ranking + *qtd) = novoJogador;
-    (*qtd)++;
-
-    ordenarRanking(*ranking, *qtd);
-    
-    return 1;
-}
-
-void ordenarRanking(Jogador *ranking, int qtd){
-for (int i = 1; i < qtd; i++) {
-        Jogador jogadorAtual = ranking[i];
-        
-        int j = i - 1;
-        
-        while (j >= 0 && ranking[j].pontos < jogadorAtual.pontos) {
-            ranking[j + 1] = ranking[j];
-            j--;
-        }
-        ranking[j + 1] = jogadorAtual;
+        novo[novaQtd - 1] = novoJogador;
+        *ranking = novo;
+        *qtd = novaQtd;
+        ordenarRanking(*ranking, *qtd);
+        return 1;
     }
 }
 
 void exibirRanking(const Jogador *ranking, int qtd) {
-    printf("\nRANKING\n");
-    
-    if (qtd == 0) {
-        printf("Ranking vazio.\n");
+    if (!ranking || qtd == 0) {
+        printf("Ainda nao ha jogadores no ranking.\n");
         return;
     }
-    
-    for (int i = 0; i < qtd; i++) {
-        printf("Pos. %d: Nome: %s Pontos: %d\n", i + 1, ranking[i].nome, ranking[i].pontos);
-    }
-}
 
+    printf("\n===== RANKING =====\n");
+    printf("%-4s %-20s %-6s\n", "Pos", "Nome", "Pts");
+
+    for (int i = 0; i < qtd; i++) {
+        printf("%-4d %-20s %-6d\n", i + 1, ranking[i].nome, ranking[i].pontos);
+    }
+
+    printf("\n");
+}
