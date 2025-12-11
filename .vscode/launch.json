@@ -1,0 +1,32 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+        "name": "Debug jogo (mac/linux)",
+        "type": "cppdbg",
+        "request": "launch",
+        "program": "${workspaceFolder}/jogo",
+        "args": [],
+        "stopAtEntry": false,
+        "cwd": "${workspaceFolder}",
+        "environment": [],
+        "externalConsole": true,
+        "MIMode": "lldb",
+        "preLaunchTask": "build jogo (mac/linux)"
+        },
+        {
+        "name": "Debug jogo (windows)",
+        "type": "cppdbg",
+        "request": "launch",
+        "program": "${workspaceFolder}/jogo.exe",
+        "args": [],
+        "stopAtEntry": false,
+        "cwd": "${workspaceFolder}",
+        "environment": [],
+        "externalConsole": true,
+        "MIMode": "gdb",
+        "miDebuggerPath": "gdb.exe",
+        "preLaunchTask": "build jogo (windows)"
+        }
+    ]
+}

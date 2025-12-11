@@ -1,0 +1,10 @@
+
+# configs do Mac
+jogo
+jogo.dSYM/ 
+jogo.yml
+info.plist
+.DS_Store
+
+# so até terminar
+*.docx
