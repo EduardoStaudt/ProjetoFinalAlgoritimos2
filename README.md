@@ -29,7 +29,7 @@ O projeto foi organizado nas seguintes pastas:
 ## Alunos:
 
 - Eduardo Andrei Staudt - RA: 2783045
-- Brandon Monteiro Donisthorpe - RA: 2783034
-- Henryque Leal de Oliveira Pimenta - RA: 2786532
-- Diego Buettgen Assef - RA: 27866516
+- Brandon Monteiro Donisthorpe - RA: 2758890
+- Henryque Leal de Oliveira Pimenta - RA: 2786540
+- Diego Buettgen Assef - RA: 2786516
 
