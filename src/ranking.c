@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "ranking.h"
+#include "../include/ranking.h"
 
 Jogador* carregarRanking(const char *arquivo, int *qtd) {
     *qtd = 0;

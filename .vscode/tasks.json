@@ -2,35 +2,27 @@
     "version": "2.0.0",
     "tasks": [
         {
-        "label": "build jogo (mac/linux)",
-        "type": "shell",
-        "command": "gcc",
-        "args": [
-            "src/*.c",
-            "-Iinclude",
-            "-g",
-            "-o",
-            "jogo"
-        ],
-        "group": {
-            "kind": "build",
-            "isDefault": true
-        },
-        "problemMatcher": "$gcc"
-        },
-        {
-        "label": "build jogo (windows)",
-        "type": "shell",
-        "command": "gcc",
-        "args": [
-            "src\\*.c",
-            "-Iinclude",
-            "-g",
-            "-o",
-            "jogo.exe"
-        ],
-        "group": "build",
-        "problemMatcher": "$gcc"
+            "type": "shell",
+            "label": "Compilar Jogo",
+            "command": "C:/Program Files/CodeBlocks/MinGW/bin/gcc.exe",
+            "args": [
+                "src/main.c",
+                "src/game.c", 
+                "src/ranking.c",
+                "src/utils.c",
+                "-Iinclude",
+                "-o",
+                "jogo_memoria.exe",
+                "-g"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": ["$gcc"]
         }
     ]
-} 
+}

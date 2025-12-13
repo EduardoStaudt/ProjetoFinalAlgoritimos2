@@ -3,9 +3,9 @@
 #include <string.h>
 #include <time.h>
 
-#include "game.h"
-#include "ranking.h"
-#include "utils.h"
+#include "../include/game.h"
+#include "../include/ranking.h"
+#include "../include/utils.h"
 
 #define LINHAS_TAB 4
 #define COLUNAS_TAB 4

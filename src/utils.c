@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "utils.h"
+#include "../include/utils.h"
 
 /**
  * Lê um inteiro do teclado garantindo que está dentro do intervalo [min, max].

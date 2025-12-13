@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 
-#include "game.h"
+#include "../include/game.h"
 
 static int indiceCarta(int linha, int coluna, int colunas) {
     return linha * colunas + coluna;

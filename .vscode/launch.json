@@ -2,31 +2,25 @@
     "version": "0.2.0",
     "configurations": [
         {
-        "name": "Debug jogo (mac/linux)",
-        "type": "cppdbg",
-        "request": "launch",
-        "program": "${workspaceFolder}/jogo",
-        "args": [],
-        "stopAtEntry": false,
-        "cwd": "${workspaceFolder}",
-        "environment": [],
-        "externalConsole": true,
-        "MIMode": "lldb",
-        "preLaunchTask": "build jogo (mac/linux)"
-        },
-        {
-        "name": "Debug jogo (windows)",
-        "type": "cppdbg",
-        "request": "launch",
-        "program": "${workspaceFolder}/jogo.exe",
-        "args": [],
-        "stopAtEntry": false,
-        "cwd": "${workspaceFolder}",
-        "environment": [],
-        "externalConsole": true,
-        "MIMode": "gdb",
-        "miDebuggerPath": "gdb.exe",
-        "preLaunchTask": "build jogo (windows)"
+            "name": "Executar Jogo",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/jogo_memoria.exe",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "miDebuggerPath": "C:/Program Files/CodeBlocks/MinGW/bin/gdb.exe",
+            "setupCommands": [
+                {
+                    "description": "Habilitar pretty-printing para gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+            "preLaunchTask": "Compilar Jogo"
         }
     ]
 }
